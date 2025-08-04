@@ -1,0 +1,400 @@
+
+
+.page-container{
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr;
+}
+
+.filter-btn{
+    border-radius: 5px; 
+    border-style: solid;
+     border-width: 0.5px; 
+     border-color: lightgray; 
+     font-size: 13px;
+     padding: 5px;
+}
+
+.search-input{
+    border-radius: 5px; 
+    border-style: solid;
+     border-width: 0.5px;
+      border-color: lightgray; 
+      font-size: 13px;padding: 5px;
+}
+.add-btn{
+    border-radius: 5px; 
+    border-style: solid;
+     border-width: 0.5px; 
+     border-color: lightgray; 
+     font-size: 13px;
+     color: white; 
+     background-color: black;
+     padding: 5px;
+}
+
+.search-container{
+    display: flex;
+    gap: 10px;
+}
+
+.table-header{
+    display: flex;
+     justify-content: space-between;
+}
+.pagination-container {
+  margin: 20px auto;
+  text-align: center;
+  width: 100%;
+  clear: both;
+}
+.pagination-container .pagination-sm>li.active>a {
+  background-color: #b30a7d !important;
+  border-color: #b30a7d !important;
+}
+
+.dropdown-content {
+     
+      position: absolute;
+      right: 0;
+      top: 100%;
+      background-color: white;
+      min-width: 120px;
+      box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      z-index: 100;
+    }
+    
+    .dropdown-content a {
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: #f0f0f0;
+    }
+      .action-buttons {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* RTL Support for Arabic */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .screen-title {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .table-header {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .search-container {
+  flex-direction: row-reverse;
+}
+
+.language-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.screen-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* Filter Popup Styles */
+.filter-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+  min-width: 400px;
+  max-width: 500px;
+}
+
+/* Popup overlay/backdrop */
+.filter-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Filter popup header */
+.filter-popup h4 {
+  margin: 0 0 20px 0;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 10px;
+}
+
+/* Filter form styling */
+.filter-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Select styling */
+.city-select, .region-select, .governorate-select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background-color: white;
+  font-size: 14px;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.city-select:focus, .region-select:focus, .governorate-select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Button container */
+.filter-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* Button styling */
+.cancel-btn, .apply-btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 100;
+  transition: all 0.3s ease;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
+}
+
+.apply-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.apply-btn:hover {
+  background-color: #0056b3;
+}
+
+/* RTL Support for popup */
+[dir="rtl"] .filter-popup {
+  text-align: right;
+}
+
+[dir="rtl"] .filter-buttons {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .filter-buttons {
+  flex-direction: row-reverse;
+}
+
+
+.heading {
+    margin-bottom: 1rem;
+}
+/* Input control styles */
+.input-control {
+    transition: border .1s linear 0s, box-shadow .1s, width .25s, color .2s;
+    border: 1px solid #ced4da;
+    box-shadow: 0 1px 3px rgb(50 50 93 / 10%), 0 1px 0 rgb(0 0 0 / 2%);
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: .969rem;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #212529;
+    background-color: #FFF;
+    background-clip: padding-box;
+    appearance: none;
+    border-radius: .12rem;
+    margin-bottom: 1rem;
+}
+.input-control:focus {
+    border-color: #9fd4fc;
+    box-shadow: 0 0 0 4px rgb(0 149 255 / 15%);
+    background-color: #fffffa;
+    outline: 0;
+}
+/* Button styles */
+.button {
+    color: #FFFFFF;
+    box-shadow: 0 1px 3px rgb(50 50 93 / 10%), 0 1px 0 rgb(0 0 0 / 2%);
+    background: linear-gradient(#6dbd45, #51a326);
+    border: 0;
+    padding: .5rem;
+    border-radius: .12rem;
+}
+.button:focus {
+    background: linear-gradient(#5EA534, #519327);
+}
+/* Add Form Overlay */
+.add-form-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+/* Add Form Popup */
+.add-form {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  padding: 20px;
+  z-index: 1000;
+ min-width: 500px;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+/* Form Heading */
+.add-form .heading {
+  margin: 0 0 25px 0;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 15px;
+  font-size: 24px;
+}
+
+/* Form Labels */
+.add-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+  font-size: 14px;
+}
+
+/* Input Controls */
+.input-control {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 14px;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+
+/* RTL Support for Add Form */
+[dir="rtl"] .add-form {
+  text-align: right;
+}
+
+[dir="rtl"] .form-buttons {
+  justify-content: flex-start;
+  flex-direction: row-reverse;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .add-form {
+    min-width: 90%;
+    max-width: 90%;
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .form-buttons {
+    flex-direction: column;
+  }
+  
+  .button {
+    width: 100%;
+  }
+}
+
+/* Required field indicator */
+.required {
+  color: #dc3545;
+}
+
+/* Form validation styles */
+.input-control.ng-invalid.ng-touched {
+  border-color: #dc3545;
+}
+
+.input-control.ng-valid.ng-touched {
+  border-color: #28a745;
+}
+/* Responsive design */
+@media (max-width: 480px) {
+  .filter-popup {
+    min-width: 90%;
+    max-width: 90%;
+    margin: 20px;
+  }
+  
+  .filter-buttons {
+    flex-direction: column;
+  }
+  
+  .cancel-btn, .apply-btn {
+    width: 100%;
+  }
+}
