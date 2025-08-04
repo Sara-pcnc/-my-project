@@ -1,0 +1,6 @@
+In AngularJS, the atob() function is not specific to the framework itself but is 
+a built-in JavaScript method. It is used to decode a string that has been encoded 
+using Base64 encoding. This method is part of the global Window object and can be 
+used in any JavaScript environment, including AngularJS applications.
+
+

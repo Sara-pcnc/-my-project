@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>user management</title>
+  <script src="bower_components/angular/angular.min.js"></script>
+  <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.19.0/angular-translate.min.js"></script>
+
+  <script src="page.js"></script>
+  <link href="page-style.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/6.6.6/css/flag-icons.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+  <script src="bower_components/angular-route/angular-route.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body ng-app="mainpage" ng-controller="mainpageCTRL" dir="{{currentDirection}}">
+
+
+  <div class="page-container">
+
+    <div class="screen-title">
+      <h4 style="font-weight: bold;">{{ 'USER_MANAGEMENT' | translate }}</h4>
+
+      <div class="language-selector">
+        <select class="form-select" ng-model="selectedLanguage" ng-change="changeLanguage()">
+          <option value="en">English</option>
+          <option value="ar">العربية - Arabic</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-header">
+    <h5 style="font-weight: bold;">{{ 'ALL_USERS' | translate }} <strong>{{ totalItems }}</strong></h5>
+    <div class="search-container">
+
+      <input type="text" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}" class="search-input">
+
+      <button class="filter-btn" ng-click="openFilterPopup()">
+        <i class="fa-solid fa-arrow-down-wide-short" style="margin-right: 5px;"></i>
+        {{ 'FILTERS' | translate }}
+      </button>
+      <div class="filter-overlay" ng-show="showFilterPopup" ng-click="closeFilterPopup()"></div>
+
+      <div class="filter-popup" ng-show="showFilterPopup">
+        <h4>{{ 'FILTER_OPTIONS' | translate }}</h4>
+
+        <div class="filter-form">
+
+
+          <!-- Governorate Filter -->
+          <div class="filter-group">
+            <label>{{ 'GOVERNORATE' | translate }}</label>
+            <select class="governorate-select" ng-model="filters.selectedGovernorate" ng-change="FilterByGovernorate()">
+              <option value="">{{ 'SELECT_GOVERNORATE' | translate }}</option>
+              <option value="NABLUS_GOV">{{ 'NABLUS_GOV' | translate }}</option>
+              <option value="RAMALLAH_BIREH_GOV">{{ 'RAMALLAH_BIREH_GOV' | translate }}</option>
+              <option value="HEBRON_GOV">{{ 'HEBRON_GOV' | translate }}</option>
+              <option value="JERUSALEM_GOV">{{ 'JERUSALEM_GOV' | translate }}</option>
+              <option value="BETHLEHEM_GOV">{{ 'BETHLEHEM_GOV' | translate }}</option>
+              <option value="JENIN_GOV">{{ 'JENIN_GOV' | translate }}</option>
+              <option value="TULKARM_GOV">{{ 'TULKARM_GOV' | translate }}</option>
+              <option value="QALQILYA_GOV">{{ 'QALQILYA_GOV' | translate }}</option>
+              <option value="SALFIT_GOV">{{ 'SALFIT_GOV' | translate }}</option>
+              <option value="JERICHO_GOV">{{ 'JERICHO_GOV' | translate }}</option>
+              <option value="GAZA_GOV">{{ 'GAZA_GOV' | translate }}</option>
+              <option value="NORTH_GAZA_GOV">{{ 'NORTH_GAZA_GOV' | translate }}</option>
+              <option value="DEIR_BALAH_GOV">{{ 'DEIR_BALAH_GOV' | translate }}</option>
+              <option value="KHAN_YOUNIS_GOV">{{ 'KHAN_YOUNIS_GOV' | translate }}</option>
+              <option value="RAFAH_GOV">{{ 'RAFAH_GOV' | translate }}</option>
+            </select>
+          </div>
+          <!-- City Filter -->
+          <div class="filter-group">
+            <label>{{ 'CITY' | translate }}</label>
+            <select class="city-select" ng-model="filters.selectedCity" ng-change="FilterByCity()">
+              <option value="">{{ 'SELECT_CITY' | translate }}</option>
+              <option value="NABLUS">{{ 'NABLUS' | translate }}</option>
+              <option value="RAMALLAH">{{ 'RAMALLAH' | translate }}</option>
+              <option value="HEBRON">{{ 'HEBRON' | translate }}</option>
+              <option value="JERUSALEM">{{ 'JERUSALEM' | translate }}</option>
+              <option value="BETHLEHEM">{{ 'BETHLEHEM' | translate }}</option>
+              <option value="JENIN">{{ 'JENIN' | translate }}</option>
+              <option value="TULKARM">{{ 'TULKARM' | translate }}</option>
+              <option value="QALQILYA">{{ 'QALQILYA' | translate }}</option>
+              <option value="SALFIT">{{ 'SALFIT' | translate }}</option>
+              <option value="JERICHO">{{ 'JERICHO' | translate }}</option>
+              <option value="GAZA">{{ 'GAZA' | translate }}</option>
+              <option value="KHAN_YOUNIS">{{ 'KHAN_YOUNIS' | translate }}</option>
+              <option value="RAFAH">{{ 'RAFAH' | translate }}</option>
+            </select>
+          </div>
+
+          <!-- Region Filter -->
+          <div class="filter-group">
+            <label>{{ 'REGION' | translate }}</label>
+            <select class="region-select" ng-model="filters.selectedRegion" ng-change="FilterByRegion()">
+              <option value="">{{ 'SELECT_REGION' | translate }}</option>
+              <option value="WEST_BANK">{{ 'WEST_BANK' | translate }}</option>
+              <option value="GAZA_STRIP">{{ 'GAZA_STRIP' | translate }}</option>
+            </select>
+          </div>
+          <!-- Buttons -->
+          <div class="filter-buttons">
+            <button class="cancel-btn" ng-click="closeFilterPopup()">{{ 'CANCEL' | translate }}</button>
+            <button class="apply-btn" ng-click="applyFilters()">{{ 'APPLY' | translate }}</button>
+          </div>
+        </div>
+      </div>
+      <button class="add-btn" ng-click="openAddForm()"> <i class="fa-solid fa-plus" style="margin-right: 5px;"></i>{{ 'ADD_USER' | translate
+        }}</button>
+        <div class="add-form-overlay" ng-show="showAddForm" ng-click="closeAddForm()"></div>
+
+      <div class="add-form" ng-show="showAddForm">
+
+
+
+        <form name="addUser_form" method="post" action="" autocomplete="off">
+          <h2 class="heading">Add User</h2>
+
+          <label>{{ 'FULL_ENG_NAME' | translate }} <span class="required">*</span></label>
+          <input type="text" name="first_name" class="input-control"   placeholder="{{ 'ENG_NAME_PLACEHOLDER' | translate }}">
+          <br>
+<label>{{ 'FULL_ARAB_NAME' | translate }} <span class="required">*</span></label>
+          <input type="text" name="last_name" class="input-control" placeholder="{{ 'ARAB_NAME_PLACEHOLDER' | translate }}">
+          <br>
+          <label>{{ 'REGION' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedRegion" ng-change="FilterByRegion()">
+            <option value="">{{ 'SELECT_REGION' | translate }}</option>
+            <option value="WEST_BANK">{{ 'WEST_BANK' | translate }}</option>
+            <option value="GAZA_STRIP">{{ 'GAZA_STRIP' | translate }}</option>
+          </select>
+          <br>
+          <label>{{ 'CITY' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedCity" ng-change="FilterByCity()">
+            <option value="">{{ 'SELECT_CITY' | translate }}</option>
+            <option value="NABLUS">{{ 'NABLUS' | translate }}</option>
+            <option value="RAMALLAH">{{ 'RAMALLAH' | translate }}</option>
+            <option value="HEBRON">{{ 'HEBRON' | translate }}</option>
+            <option value="JERUSALEM">{{ 'JERUSALEM' | translate }}</option>
+            <option value="BETHLEHEM">{{ 'BETHLEHEM' | translate }}</option>
+            <option value="JENIN">{{ 'JENIN' | translate }}</option>
+            <option value="TULKARM">{{ 'TULKARM' | translate }}</option>
+            <option value="QALQILYA">{{ 'QALQILYA' | translate }}</option>
+            <option value="SALFIT">{{ 'SALFIT' | translate }}</option>
+            <option value="JERICHO">{{ 'JERICHO' | translate }}</option>
+            <option value="GAZA">{{ 'GAZA' | translate }}</option>
+            <option value="KHAN_YOUNIS">{{ 'KHAN_YOUNIS' | translate }}</option>
+            <option value="RAFAH">{{ 'RAFAH' | translate }}</option>
+          </select>
+          <br>
+
+          <label>{{ 'GOVERNORATE' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedGovernorate" ng-change="FilterByGovernorate()">
+            <option value="">{{ 'SELECT_GOVERNORATE' | translate }}</option>
+            <option value="NABLUS_GOV">{{ 'NABLUS_GOV' | translate }}</option>
+            <option value="RAMALLAH_BIREH_GOV">{{ 'RAMALLAH_BIREH_GOV' | translate }}</option>
+            <option value="HEBRON_GOV">{{ 'HEBRON_GOV' | translate }}</option>
+            <option value="JERUSALEM_GOV">{{ 'JERUSALEM_GOV' | translate }}</option>
+            <option value="BETHLEHEM_GOV">{{ 'BETHLEHEM_GOV' | translate }}</option>
+            <option value="JENIN_GOV">{{ 'JENIN_GOV' | translate }}</option>
+            <option value="TULKARM_GOV">{{ 'TULKARM_GOV' | translate }}</option>
+            <option value="QALQILYA_GOV">{{ 'QALQILYA_GOV' | translate }}</option>
+            <option value="SALFIT_GOV">{{ 'SALFIT_GOV' | translate }}</option>
+            <option value="JERICHO_GOV">{{ 'JERICHO_GOV' | translate }}</option>
+            <option value="GAZA_GOV">{{ 'GAZA_GOV' | translate }}</option>
+            <option value="NORTH_GAZA_GOV">{{ 'NORTH_GAZA_GOV' | translate }}</option>
+            <option value="DEIR_BALAH_GOV">{{ 'DEIR_BALAH_GOV' | translate }}</option>
+            <option value="KHAN_YOUNIS_GOV">{{ 'KHAN_YOUNIS_GOV' | translate }}</option>
+            <option value="RAFAH_GOV">{{ 'RAFAH_GOV' | translate }}</option>
+          </select>
+          <br>
+          <label>{{ 'ID_NUMBER' | translate }}</label>
+          <input type="text" name="id" class="input-control">
+          <br>
+          <label>{{ 'DOB' | translate }}</label>
+          <input type="date" name="dob" class="input-control">
+          <br>
+          <label>{{ ' PHONE' | translate }}</label>
+          <input type="text" name="phone" class="input-control">
+          <br>
+          <input type="submit" name="submit" class="button" ng-click="closeAddForm()" value="Add User">
+           <button type="button" class="button" ng-click="closeAddForm()">
+  {{ 'CANCEL' | translate }}
+</button>
+
+        </form>
+
+      </div>
+      <!-- Form End -->
+
+    </div>
+
+  </div>
+
+  </div>
+  <div class="table-content">
+
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>{{ 'NAME' | translate }}</th>
+          <th>{{ 'ID_NUMBER' | translate }}</th>
+          <th>{{ 'REGION' | translate }}</th>
+          <th>{{ 'CITY' | translate }}</th>
+          <th>{{ 'GOVERNORATE' | translate }}</th>
+          <th>{{ 'ACTIONS' | translate }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- ng-repeat="role in paginatedRoles()" -->
+        <tr>
+
+          <!-- <td>{{role.name || ''}}</td>
+                <td>{{role.description || ''}}</td> -->
+          <td>t</td>
+          <td>t</td>
+          <td>{{'JENIN' | translate}}</td>
+          <td>t</td>
+          <td>t</td>
+          <td>
+            <div class="action-buttons">
+              <button class="list-btn" ng-click="toggleDropdown()">
+                <i class="fa-solid fa-ellipsis-vertical"></i>
+              </button>
+              <div class="dropdown-content" ng-show="showDropdown">
+
+                <a href="#" ng-repeat="item in dropdownContent">{{ item | translate }}</a>
+
+              </div>
+            </div>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <div class="pagination-container">
+    <uib-pagination total-items="totalItems" ng-model="currentPage" items-per-page="numPerPage" max-size="5"
+      boundary-links="true" class="pagination-sm">
+    </uib-pagination>
+  </div>
+
+
+  </div>
+
+
+
+   <div class="edit-form-overlay" ng-show="showEditForm" ng-click="closeEditForm()"></div>
+
+      <div class="edit-form" ng-show="showEditForm">
+
+
+
+        <form name="editeUser_form" method="post" ng-submit="submitEditedUser()" action="" autocomplete="off">
+          <h2 class="heading">Edit User</h2>
+
+          <label>{{ 'FULL_ENG_NAME' | translate }} <span class="required">*</span></label>
+          <input type="text" name="first_name" class="input-control"   ng-model="selectedUser.name"  ng-readonly="true" placeholder="{{ 'ENG_NAME_PLACEHOLDER' | translate }}">
+          <br>
+<label>{{ 'FULL_ARAB_NAME' | translate }} <span class="required">*</span></label>
+          <input type="text" name="last_name" class="input-control" placeholder="{{ 'ARAB_NAME_PLACEHOLDER' | translate }}">
+          <br>
+          <label>{{ 'REGION' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedRegion" ng-change="FilterByRegion()">
+            <option value="">{{ 'SELECT_REGION' | translate }}</option>
+            <option value="WEST_BANK">{{ 'WEST_BANK' | translate }}</option>
+            <option value="GAZA_STRIP">{{ 'GAZA_STRIP' | translate }}</option>
+          </select>
+          <br>
+          <label>{{ 'CITY' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedCity" ng-change="FilterByCity()">
+            <option value="">{{ 'SELECT_CITY' | translate }}</option>
+            <option value="NABLUS">{{ 'NABLUS' | translate }}</option>
+            <option value="RAMALLAH">{{ 'RAMALLAH' | translate }}</option>
+            <option value="HEBRON">{{ 'HEBRON' | translate }}</option>
+            <option value="JERUSALEM">{{ 'JERUSALEM' | translate }}</option>
+            <option value="BETHLEHEM">{{ 'BETHLEHEM' | translate }}</option>
+            <option value="JENIN">{{ 'JENIN' | translate }}</option>
+            <option value="TULKARM">{{ 'TULKARM' | translate }}</option>
+            <option value="QALQILYA">{{ 'QALQILYA' | translate }}</option>
+            <option value="SALFIT">{{ 'SALFIT' | translate }}</option>
+            <option value="JERICHO">{{ 'JERICHO' | translate }}</option>
+            <option value="GAZA">{{ 'GAZA' | translate }}</option>
+            <option value="KHAN_YOUNIS">{{ 'KHAN_YOUNIS' | translate }}</option>
+            <option value="RAFAH">{{ 'RAFAH' | translate }}</option>
+          </select>
+          <br>
+
+          <label>{{ 'GOVERNORATE' | translate }}</label>
+          <select class="input-control" ng-model="filters.selectedGovernorate" ng-change="FilterByGovernorate()">
+            <option value="">{{ 'SELECT_GOVERNORATE' | translate }}</option>
+            <option value="NABLUS_GOV">{{ 'NABLUS_GOV' | translate }}</option>
+            <option value="RAMALLAH_BIREH_GOV">{{ 'RAMALLAH_BIREH_GOV' | translate }}</option>
+            <option value="HEBRON_GOV">{{ 'HEBRON_GOV' | translate }}</option>
+            <option value="JERUSALEM_GOV">{{ 'JERUSALEM_GOV' | translate }}</option>
+            <option value="BETHLEHEM_GOV">{{ 'BETHLEHEM_GOV' | translate }}</option>
+            <option value="JENIN_GOV">{{ 'JENIN_GOV' | translate }}</option>
+            <option value="TULKARM_GOV">{{ 'TULKARM_GOV' | translate }}</option>
+            <option value="QALQILYA_GOV">{{ 'QALQILYA_GOV' | translate }}</option>
+            <option value="SALFIT_GOV">{{ 'SALFIT_GOV' | translate }}</option>
+            <option value="JERICHO_GOV">{{ 'JERICHO_GOV' | translate }}</option>
+            <option value="GAZA_GOV">{{ 'GAZA_GOV' | translate }}</option>
+            <option value="NORTH_GAZA_GOV">{{ 'NORTH_GAZA_GOV' | translate }}</option>
+            <option value="DEIR_BALAH_GOV">{{ 'DEIR_BALAH_GOV' | translate }}</option>
+            <option value="KHAN_YOUNIS_GOV">{{ 'KHAN_YOUNIS_GOV' | translate }}</option>
+            <option value="RAFAH_GOV">{{ 'RAFAH_GOV' | translate }}</option>
+          </select>
+          <br>
+         
+         
+          <label>{{ ' PHONE' | translate }}</label>
+          <input type="text" name="phone" class="input-control" ng-model="selectedUser.phone">
+          <br>
+          <input type="submit" name="submit" class="button" value="Edit User">
+  <button type="button" class="button" ng-click="closeEditForm()">
+  {{ 'CANCEL' | translate }}
+</button>        </form>
+
+      </div>
+
+
+
+       <form class="delteteUser-form" id="deleteRolePopup" name="deleteUserPopup" ng-show="showDeleteForm">
+          <h3>Delete User</h3>
+          <input type="hidden" id="deleteUserId">
+
+          <div class="delete-confirmation">
+            <p>Are you sure you want to delete this user ?</p>
+            <div class="delete-user-name" id="deleteUserDisplay">{{deleteformData.name_en}}</div>
+            <p> This action cannot be undone.</p>
+          </div>
+
+          <div class="social" style="margin-top: 40px;">
+            <div class="go" ng-click="submitDeleteUser()">Delete</div>
+            <div class="fb" ng-click="cancelDelete()">Cancel</div>
+          </div>
+        </form>
+</body>
+
+</html>
